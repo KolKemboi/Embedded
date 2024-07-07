@@ -1,2 +1,2 @@
 # Mechatronic-Systems
-A collection of projects done with Arduino and Atmel32
+A collection of projects done with Arduino and Atmega32
