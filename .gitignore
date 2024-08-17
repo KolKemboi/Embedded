@@ -50,3 +50,5 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+*.vsidx
+C_Code/.vs/C_Code/v17/Preview/Browse.VC.opendb
