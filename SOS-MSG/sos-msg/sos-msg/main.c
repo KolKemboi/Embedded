@@ -5,11 +5,14 @@
  * Author : kolke
  */ 
 #define F_CPU 8000000L
-#define __DELAY_BACKWARD_COMPATIBLE__
+#define __DELAY_BACKWARD_COMPATIBLE__ /*This Macro makes the delay function accept variables as inputs*/
 #include <avr/io.h>
 #include <util/delay.h>
+
+//should have used global varibles instead of the #defines, this is terrible coding
+//TODO : Fix the two macros and make them variables
 #define MSG_END 2000
-#define CHAR_END 1000
+#define CHAR_END 1000 
 
 
 void showmsg(int array[5]);
@@ -36,13 +39,13 @@ int main(void)
 
 void onled(int time){
 	PORTB = 0xFF;
-	_delay_ms(time);
+	_delay_ms(time); /*accepts the time input because of the __DELAY_BACKWARD_COMPATIBLE__ macro*/
 }
 
 
 void offled(int time){
 	PORTB = 0x00;
-	_delay_ms(time);
+	_delay_ms(time); /*accepts the time input because of the __DELAY_BACKWARD_COMPATIBLE__ macro*/
 }
 
 void showmsg(int array[5]){
