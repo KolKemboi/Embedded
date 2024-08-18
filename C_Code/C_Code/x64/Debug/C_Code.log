@@ -1,2 +1,7 @@
 ﻿  ClassCode.c
-  C_Code.vcxproj -> C:\Users\kolke\Documents\GitHub\EMBEDDED-SYSTEM-PROGRAMMING\C_Code\x64\Debug\C_Code.exe
+C:\Users\kolke\Documents\GitHub\EMBEDDED-SYSTEM-PROGRAMMING\C_Code\ClassCode.c(12,17): error C2059: syntax error: 'if'
+C:\Users\kolke\Documents\GitHub\EMBEDDED-SYSTEM-PROGRAMMING\C_Code\ClassCode.c(12,35): error C2059: syntax error: ')'
+C:\Users\kolke\Documents\GitHub\EMBEDDED-SYSTEM-PROGRAMMING\C_Code\ClassCode.c(13,2): error C2449: found '{' at file scope (missing function header?)
+C:\Users\kolke\Documents\GitHub\EMBEDDED-SYSTEM-PROGRAMMING\C_Code\ClassCode.c(17,2): error C2059: syntax error: '}'
+C:\Users\kolke\Documents\GitHub\EMBEDDED-SYSTEM-PROGRAMMING\C_Code\ClassCode.c(19,2): error C2059: syntax error: 'return'
+C:\Users\kolke\Documents\GitHub\EMBEDDED-SYSTEM-PROGRAMMING\C_Code\ClassCode.c(20,1): error C2059: syntax error: '}'

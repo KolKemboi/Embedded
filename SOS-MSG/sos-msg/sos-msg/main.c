@@ -9,11 +9,12 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-//should have used global varibles instead of the #defines, this is terrible coding
+//should have used global variables instead of the #defines, this is terrible coding
 //TODO : Fix the two macros and make them variables
-#define MSG_END 2000
-#define CHAR_END 1000 
+//Macros fixed, const unsigned ints created
 
+const unsigned int MSG_END = 2000;
+const unsigned int CHAR_END = 1000;
 
 void showmsg(int array[5]);
 void onled(int time);
