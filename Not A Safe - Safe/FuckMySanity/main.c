@@ -26,25 +26,20 @@ int main(void)
 	_delay_ms(1000);
 	lcd_clearDisplay();
 
-	// Set PB1 and PB2 as output for motor control
-	DDRB |= (1 << PB1) | (1 << PB2);
-	PORTC = 0b00000010;
-	_delay_ms(1000);
 	while (1)
 	{
-		
 		if (trial_count >= MAX_TRIALS)  // Lock out after exceeding maximum trials
 		{
 			lcd_clearDisplay();
 			lcd_write_string("Locked Out");
-			while (1);
+			while (1);  // Stop further input
 		}
 
 		data_from_keypad = keypad_scan();
 
-		if (data_from_keypad == 'C')
+		if (data_from_keypad == 'C')  // Check if 'C' (Enter) is pressed
 		{
-			entered_password[entered_index] = '\0';
+			entered_password[entered_index] = '\0';  // Null-terminate the entered password
 			lcd_clearDisplay();
 
 			if (strcmp(entered_password, correct_password) == 0)  // Password matches
@@ -52,11 +47,22 @@ int main(void)
 				lcd_write_string("Access Granted");
 				_delay_ms(2000);
 				lcd_clearDisplay();
-				while (1);  // Stop further input after success
+
+				// Activate the motor when access is granted
+				PORTA = 0b11111110;
+				_delay_ms(3000);
+
+				lcd_write_string("Motor Stopped");
+				_delay_ms(2000);
+				lcd_clearDisplay();
+
+				// Reset password and allow for the next input
+				entered_index = 0;
+				entered_password[0] = '\0';  // Clear entered password
 			}
-			else
+			else  // Incorrect password
 			{
-				trial_count++;
+				trial_count++;  
 				lcd_write_string("Access Denied");
 				_delay_ms(2000);
 				lcd_clearDisplay();
@@ -65,17 +71,18 @@ int main(void)
 				lcd_write_character('0' + (MAX_TRIALS - trial_count));
 				_delay_ms(2000);
 				lcd_clearDisplay();
-			}
 
-			entered_index = 0;
-			entered_password[0] = '\0';
+				
+				entered_index = 0;
+				entered_password[0] = '\0';
+			}
 		}
-		else if (data_from_keypad == '*')
+		else if (data_from_keypad == '*')  // Handle backspace (delete last character)
 		{
 			if (entered_index > 0)
 			{
-				entered_index--;
-				entered_password[entered_index] = '\0';
+				entered_index--;  // Move back to previous character
+				entered_password[entered_index] = '\0';  // Null-terminate the string
 
 				lcd_clearDisplay();
 				for (uint8_t i = 0; i < entered_index; i++)
@@ -84,10 +91,10 @@ int main(void)
 				}
 			}
 		}
-		else if (data_from_keypad != 0 && entered_index < MAX_PASSWORD_LENGTH)
+		else if (data_from_keypad != 0 && entered_index < MAX_PASSWORD_LENGTH)  // Valid key pressed
 		{
-			lcd_write_character(data_from_keypad);
-			entered_password[entered_index++] = data_from_keypad;
+			lcd_write_character(data_from_keypad);  // Display entered character
+			entered_password[entered_index++] = data_from_keypad;  // Store character in password array
 		}
 	}
 }

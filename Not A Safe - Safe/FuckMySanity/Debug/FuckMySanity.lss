@@ -3,29 +3,29 @@ FuckMySanity.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000065a  00000000  00000000  00000074  2**1
+  0 .text         00000676  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000050  00800060  0000065a  000006ce  2**0
+  1 .data         0000005e  00800060  00000676  000006ea  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  0000071e  2**0
+  2 .comment      00000030  00000000  00000000  00000748  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000750  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000778  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000098  00000000  00000000  0000078c  2**0
+  4 .debug_aranges 00000098  00000000  00000000  000007b4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000010f5  00000000  00000000  00000824  2**0
+  5 .debug_info   00001151  00000000  00000000  0000084c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000839  00000000  00000000  00001919  2**0
+  6 .debug_abbrev 0000081e  00000000  00000000  0000199d  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000008fc  00000000  00000000  00002152  2**0
+  7 .debug_line   0000091a  00000000  00000000  000021bb  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  0000010c  00000000  00000000  00002a50  2**2
+  8 .debug_frame  0000010c  00000000  00000000  00002ad8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000045d  00000000  00000000  00002b5c  2**0
+  9 .debug_str    0000045d  00000000  00000000  00002be4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000854  00000000  00000000  00002fb9  2**0
+ 10 .debug_loc    000008fb  00000000  00000000  00003041  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000068  00000000  00000000  0000380d  2**0
+ 11 .debug_ranges 00000068  00000000  00000000  0000393c  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -65,16 +65,16 @@ Disassembly of section .text:
   60:	10 e0       	ldi	r17, 0x00	; 0
   62:	a0 e6       	ldi	r26, 0x60	; 96
   64:	b0 e0       	ldi	r27, 0x00	; 0
-  66:	ea e5       	ldi	r30, 0x5A	; 90
+  66:	e6 e7       	ldi	r30, 0x76	; 118
   68:	f6 e0       	ldi	r31, 0x06	; 6
   6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
   6c:	05 90       	lpm	r0, Z+
   6e:	0d 92       	st	X+, r0
-  70:	a0 3b       	cpi	r26, 0xB0	; 176
+  70:	ae 3b       	cpi	r26, 0xBE	; 190
   72:	b1 07       	cpc	r27, r17
   74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
   76:	0e 94 5a 02 	call	0x4b4	; 0x4b4 <main>
-  7a:	0c 94 2b 03 	jmp	0x656	; 0x656 <_exit>
+  7a:	0c 94 39 03 	jmp	0x672	; 0x672 <_exit>
 
 0000007e <__bad_interrupt>:
   7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -893,246 +893,273 @@ int main(void)
 	_delay_ms(1000);
 	lcd_clearDisplay();
  514:	0e 94 50 02 	call	0x4a0	; 0x4a0 <lcd_clearDisplay>
-
-	// Set PB1 and PB2 as output for motor control
-	DDRB |= (1 << PB1) | (1 << PB2);
- 518:	87 b3       	in	r24, 0x17	; 23
- 51a:	86 60       	ori	r24, 0x06	; 6
- 51c:	87 bb       	out	0x17, r24	; 23
-	PORTC = 0b00000010;
- 51e:	82 e0       	ldi	r24, 0x02	; 2
- 520:	85 bb       	out	0x15, r24	; 21
- 522:	2f e3       	ldi	r18, 0x3F	; 63
- 524:	8d e0       	ldi	r24, 0x0D	; 13
- 526:	93 e0       	ldi	r25, 0x03	; 3
- 528:	21 50       	subi	r18, 0x01	; 1
- 52a:	80 40       	sbci	r24, 0x00	; 0
- 52c:	90 40       	sbci	r25, 0x00	; 0
- 52e:	e1 f7       	brne	.-8      	; 0x528 <main+0x74>
- 530:	00 c0       	rjmp	.+0      	; 0x532 <main+0x7e>
- 532:	00 00       	nop
 int main(void)
 {
 	uint8_t data_from_keypad;
 	char entered_password[MAX_PASSWORD_LENGTH + 1] = "";
 	uint8_t entered_index = 0;
 	uint8_t trial_count = 0;
- 534:	f1 2c       	mov	r15, r1
+ 518:	f1 2c       	mov	r15, r1
 
 int main(void)
 {
 	uint8_t data_from_keypad;
 	char entered_password[MAX_PASSWORD_LENGTH + 1] = "";
 	uint8_t entered_index = 0;
- 536:	10 e0       	ldi	r17, 0x00	; 0
-	PORTC = 0b00000010;
+ 51a:	10 e0       	ldi	r17, 0x00	; 0
 	_delay_ms(1000);
+	lcd_clearDisplay();
+
 	while (1)
 	{
-		
 		if (trial_count >= MAX_TRIALS)  // Lock out after exceeding maximum trials
- 538:	a2 e0       	ldi	r26, 0x02	; 2
- 53a:	af 15       	cp	r26, r15
- 53c:	38 f4       	brcc	.+14     	; 0x54c <main+0x98>
+ 51c:	22 e0       	ldi	r18, 0x02	; 2
+ 51e:	2f 15       	cp	r18, r15
+ 520:	38 f4       	brcc	.+14     	; 0x530 <main+0x7c>
 		{
 			lcd_clearDisplay();
- 53e:	0e 94 50 02 	call	0x4a0	; 0x4a0 <lcd_clearDisplay>
+ 522:	0e 94 50 02 	call	0x4a0	; 0x4a0 <lcd_clearDisplay>
 			lcd_write_string("Locked Out");
- 542:	86 e7       	ldi	r24, 0x76	; 118
- 544:	90 e0       	ldi	r25, 0x00	; 0
- 546:	0e 94 c2 01 	call	0x384	; 0x384 <lcd_write_string>
- 54a:	ff cf       	rjmp	.-2      	; 0x54a <main+0x96>
-			while (1);
+ 526:	86 e7       	ldi	r24, 0x76	; 118
+ 528:	90 e0       	ldi	r25, 0x00	; 0
+ 52a:	0e 94 c2 01 	call	0x384	; 0x384 <lcd_write_string>
+ 52e:	ff cf       	rjmp	.-2      	; 0x52e <main+0x7a>
+			while (1);  // Stop further input
 		}
 
 		data_from_keypad = keypad_scan();
- 54c:	0e 94 66 00 	call	0xcc	; 0xcc <keypad_scan>
- 550:	08 2f       	mov	r16, r24
+ 530:	0e 94 66 00 	call	0xcc	; 0xcc <keypad_scan>
+ 534:	08 2f       	mov	r16, r24
 
-		if (data_from_keypad == 'C')
- 552:	83 34       	cpi	r24, 0x43	; 67
- 554:	09 f0       	breq	.+2      	; 0x558 <main+0xa4>
- 556:	47 c0       	rjmp	.+142    	; 0x5e6 <main+0x132>
+		if (data_from_keypad == 'C')  // Check if 'C' (Enter) is pressed
+ 536:	83 34       	cpi	r24, 0x43	; 67
+ 538:	09 f0       	breq	.+2      	; 0x53c <main+0x88>
+ 53a:	63 c0       	rjmp	.+198    	; 0x602 <main+0x14e>
 		{
-			entered_password[entered_index] = '\0';
- 558:	e1 e0       	ldi	r30, 0x01	; 1
- 55a:	f0 e0       	ldi	r31, 0x00	; 0
- 55c:	ec 0f       	add	r30, r28
- 55e:	fd 1f       	adc	r31, r29
- 560:	e1 0f       	add	r30, r17
- 562:	f1 1d       	adc	r31, r1
- 564:	10 82       	st	Z, r1
+			entered_password[entered_index] = '\0';  // Null-terminate the entered password
+ 53c:	e1 e0       	ldi	r30, 0x01	; 1
+ 53e:	f0 e0       	ldi	r31, 0x00	; 0
+ 540:	ec 0f       	add	r30, r28
+ 542:	fd 1f       	adc	r31, r29
+ 544:	e1 0f       	add	r30, r17
+ 546:	f1 1d       	adc	r31, r1
+ 548:	10 82       	st	Z, r1
 			lcd_clearDisplay();
- 566:	0e 94 50 02 	call	0x4a0	; 0x4a0 <lcd_clearDisplay>
+ 54a:	0e 94 50 02 	call	0x4a0	; 0x4a0 <lcd_clearDisplay>
 
 			if (strcmp(entered_password, correct_password) == 0)  // Password matches
- 56a:	6b ea       	ldi	r22, 0xAB	; 171
- 56c:	70 e0       	ldi	r23, 0x00	; 0
- 56e:	ce 01       	movw	r24, r28
- 570:	01 96       	adiw	r24, 0x01	; 1
- 572:	0e 94 22 03 	call	0x644	; 0x644 <strcmp>
- 576:	89 2b       	or	r24, r25
- 578:	81 f4       	brne	.+32     	; 0x59a <main+0xe6>
+ 54e:	69 eb       	ldi	r22, 0xB9	; 185
+ 550:	70 e0       	ldi	r23, 0x00	; 0
+ 552:	ce 01       	movw	r24, r28
+ 554:	01 96       	adiw	r24, 0x01	; 1
+ 556:	0e 94 30 03 	call	0x660	; 0x660 <strcmp>
+ 55a:	89 2b       	or	r24, r25
+ 55c:	61 f5       	brne	.+88     	; 0x5b6 <main+0x102>
 			{
 				lcd_write_string("Access Granted");
- 57a:	81 e8       	ldi	r24, 0x81	; 129
- 57c:	90 e0       	ldi	r25, 0x00	; 0
- 57e:	0e 94 c2 01 	call	0x384	; 0x384 <lcd_write_string>
- 582:	bf e7       	ldi	r27, 0x7F	; 127
- 584:	2a e1       	ldi	r18, 0x1A	; 26
- 586:	86 e0       	ldi	r24, 0x06	; 6
- 588:	b1 50       	subi	r27, 0x01	; 1
- 58a:	20 40       	sbci	r18, 0x00	; 0
- 58c:	80 40       	sbci	r24, 0x00	; 0
- 58e:	e1 f7       	brne	.-8      	; 0x588 <main+0xd4>
- 590:	00 c0       	rjmp	.+0      	; 0x592 <main+0xde>
- 592:	00 00       	nop
+ 55e:	81 e8       	ldi	r24, 0x81	; 129
+ 560:	90 e0       	ldi	r25, 0x00	; 0
+ 562:	0e 94 c2 01 	call	0x384	; 0x384 <lcd_write_string>
+ 566:	8f e7       	ldi	r24, 0x7F	; 127
+ 568:	9a e1       	ldi	r25, 0x1A	; 26
+ 56a:	a6 e0       	ldi	r26, 0x06	; 6
+ 56c:	81 50       	subi	r24, 0x01	; 1
+ 56e:	90 40       	sbci	r25, 0x00	; 0
+ 570:	a0 40       	sbci	r26, 0x00	; 0
+ 572:	e1 f7       	brne	.-8      	; 0x56c <main+0xb8>
+ 574:	00 c0       	rjmp	.+0      	; 0x576 <main+0xc2>
+ 576:	00 00       	nop
 				_delay_ms(2000);
 				lcd_clearDisplay();
- 594:	0e 94 50 02 	call	0x4a0	; 0x4a0 <lcd_clearDisplay>
- 598:	ff cf       	rjmp	.-2      	; 0x598 <main+0xe4>
-				while (1);  // Stop further input after success
+ 578:	0e 94 50 02 	call	0x4a0	; 0x4a0 <lcd_clearDisplay>
+
+				// Activate the motor when access is granted
+				PORTA = 0b11111110;
+ 57c:	8e ef       	ldi	r24, 0xFE	; 254
+ 57e:	8b bb       	out	0x1b, r24	; 27
+ 580:	bf eb       	ldi	r27, 0xBF	; 191
+ 582:	27 e2       	ldi	r18, 0x27	; 39
+ 584:	89 e0       	ldi	r24, 0x09	; 9
+ 586:	b1 50       	subi	r27, 0x01	; 1
+ 588:	20 40       	sbci	r18, 0x00	; 0
+ 58a:	80 40       	sbci	r24, 0x00	; 0
+ 58c:	e1 f7       	brne	.-8      	; 0x586 <main+0xd2>
+ 58e:	00 c0       	rjmp	.+0      	; 0x590 <main+0xdc>
+ 590:	00 00       	nop
+				_delay_ms(3000);
+
+				lcd_write_string("Motor Stopped");
+ 592:	80 e9       	ldi	r24, 0x90	; 144
+ 594:	90 e0       	ldi	r25, 0x00	; 0
+ 596:	0e 94 c2 01 	call	0x384	; 0x384 <lcd_write_string>
+ 59a:	9f e7       	ldi	r25, 0x7F	; 127
+ 59c:	aa e1       	ldi	r26, 0x1A	; 26
+ 59e:	b6 e0       	ldi	r27, 0x06	; 6
+ 5a0:	91 50       	subi	r25, 0x01	; 1
+ 5a2:	a0 40       	sbci	r26, 0x00	; 0
+ 5a4:	b0 40       	sbci	r27, 0x00	; 0
+ 5a6:	e1 f7       	brne	.-8      	; 0x5a0 <main+0xec>
+ 5a8:	00 c0       	rjmp	.+0      	; 0x5aa <main+0xf6>
+ 5aa:	00 00       	nop
+				_delay_ms(2000);
+				lcd_clearDisplay();
+ 5ac:	0e 94 50 02 	call	0x4a0	; 0x4a0 <lcd_clearDisplay>
+
+				// Reset password and allow for the next input
+				entered_index = 0;
+				entered_password[0] = '\0';  // Clear entered password
+ 5b0:	19 82       	std	Y+1, r1	; 0x01
+				lcd_write_string("Motor Stopped");
+				_delay_ms(2000);
+				lcd_clearDisplay();
+
+				// Reset password and allow for the next input
+				entered_index = 0;
+ 5b2:	10 e0       	ldi	r17, 0x00	; 0
+ 5b4:	b3 cf       	rjmp	.-154    	; 0x51c <main+0x68>
+				entered_password[0] = '\0';  // Clear entered password
 			}
-			else
+			else  // Incorrect password
 			{
-				trial_count++;
- 59a:	f3 94       	inc	r15
+				trial_count++;  // Increment the failed attempt counter
+ 5b6:	f3 94       	inc	r15
 				lcd_write_string("Access Denied");
- 59c:	80 e9       	ldi	r24, 0x90	; 144
- 59e:	90 e0       	ldi	r25, 0x00	; 0
- 5a0:	0e 94 c2 01 	call	0x384	; 0x384 <lcd_write_string>
- 5a4:	9f e7       	ldi	r25, 0x7F	; 127
- 5a6:	aa e1       	ldi	r26, 0x1A	; 26
- 5a8:	b6 e0       	ldi	r27, 0x06	; 6
- 5aa:	91 50       	subi	r25, 0x01	; 1
- 5ac:	a0 40       	sbci	r26, 0x00	; 0
- 5ae:	b0 40       	sbci	r27, 0x00	; 0
- 5b0:	e1 f7       	brne	.-8      	; 0x5aa <main+0xf6>
- 5b2:	00 c0       	rjmp	.+0      	; 0x5b4 <main+0x100>
- 5b4:	00 00       	nop
+ 5b8:	8e e9       	ldi	r24, 0x9E	; 158
+ 5ba:	90 e0       	ldi	r25, 0x00	; 0
+ 5bc:	0e 94 c2 01 	call	0x384	; 0x384 <lcd_write_string>
+ 5c0:	2f e7       	ldi	r18, 0x7F	; 127
+ 5c2:	8a e1       	ldi	r24, 0x1A	; 26
+ 5c4:	96 e0       	ldi	r25, 0x06	; 6
+ 5c6:	21 50       	subi	r18, 0x01	; 1
+ 5c8:	80 40       	sbci	r24, 0x00	; 0
+ 5ca:	90 40       	sbci	r25, 0x00	; 0
+ 5cc:	e1 f7       	brne	.-8      	; 0x5c6 <main+0x112>
+ 5ce:	00 c0       	rjmp	.+0      	; 0x5d0 <main+0x11c>
+ 5d0:	00 00       	nop
 				_delay_ms(2000);
 				lcd_clearDisplay();
- 5b6:	0e 94 50 02 	call	0x4a0	; 0x4a0 <lcd_clearDisplay>
+ 5d2:	0e 94 50 02 	call	0x4a0	; 0x4a0 <lcd_clearDisplay>
 
 				lcd_write_string("Tries Left: ");
- 5ba:	8e e9       	ldi	r24, 0x9E	; 158
- 5bc:	90 e0       	ldi	r25, 0x00	; 0
- 5be:	0e 94 c2 01 	call	0x384	; 0x384 <lcd_write_string>
+ 5d6:	8c ea       	ldi	r24, 0xAC	; 172
+ 5d8:	90 e0       	ldi	r25, 0x00	; 0
+ 5da:	0e 94 c2 01 	call	0x384	; 0x384 <lcd_write_string>
 				lcd_write_character('0' + (MAX_TRIALS - trial_count));
- 5c2:	83 e3       	ldi	r24, 0x33	; 51
- 5c4:	8f 19       	sub	r24, r15
- 5c6:	0e 94 b0 01 	call	0x360	; 0x360 <lcd_write_character>
- 5ca:	2f e7       	ldi	r18, 0x7F	; 127
- 5cc:	8a e1       	ldi	r24, 0x1A	; 26
- 5ce:	96 e0       	ldi	r25, 0x06	; 6
- 5d0:	21 50       	subi	r18, 0x01	; 1
- 5d2:	80 40       	sbci	r24, 0x00	; 0
- 5d4:	90 40       	sbci	r25, 0x00	; 0
- 5d6:	e1 f7       	brne	.-8      	; 0x5d0 <main+0x11c>
- 5d8:	00 c0       	rjmp	.+0      	; 0x5da <main+0x126>
- 5da:	00 00       	nop
+ 5de:	83 e3       	ldi	r24, 0x33	; 51
+ 5e0:	8f 19       	sub	r24, r15
+ 5e2:	0e 94 b0 01 	call	0x360	; 0x360 <lcd_write_character>
+ 5e6:	af e7       	ldi	r26, 0x7F	; 127
+ 5e8:	ba e1       	ldi	r27, 0x1A	; 26
+ 5ea:	26 e0       	ldi	r18, 0x06	; 6
+ 5ec:	a1 50       	subi	r26, 0x01	; 1
+ 5ee:	b0 40       	sbci	r27, 0x00	; 0
+ 5f0:	20 40       	sbci	r18, 0x00	; 0
+ 5f2:	e1 f7       	brne	.-8      	; 0x5ec <main+0x138>
+ 5f4:	00 c0       	rjmp	.+0      	; 0x5f6 <main+0x142>
+ 5f6:	00 00       	nop
 				_delay_ms(2000);
 				lcd_clearDisplay();
- 5dc:	0e 94 50 02 	call	0x4a0	; 0x4a0 <lcd_clearDisplay>
-			}
+ 5f8:	0e 94 50 02 	call	0x4a0	; 0x4a0 <lcd_clearDisplay>
 
-			entered_index = 0;
-			entered_password[0] = '\0';
- 5e0:	19 82       	std	Y+1, r1	; 0x01
+				// Reset entered password after a failed attempt
+				entered_index = 0;
+				entered_password[0] = '\0';
+ 5fc:	19 82       	std	Y+1, r1	; 0x01
 				lcd_write_character('0' + (MAX_TRIALS - trial_count));
 				_delay_ms(2000);
 				lcd_clearDisplay();
-			}
 
-			entered_index = 0;
- 5e2:	10 e0       	ldi	r17, 0x00	; 0
- 5e4:	a9 cf       	rjmp	.-174    	; 0x538 <main+0x84>
-			entered_password[0] = '\0';
+				// Reset entered password after a failed attempt
+				entered_index = 0;
+ 5fe:	10 e0       	ldi	r17, 0x00	; 0
+ 600:	8d cf       	rjmp	.-230    	; 0x51c <main+0x68>
+				entered_password[0] = '\0';
+			}
 		}
-		else if (data_from_keypad == '*')
- 5e6:	8a 32       	cpi	r24, 0x2A	; 42
- 5e8:	e1 f4       	brne	.+56     	; 0x622 <main+0x16e>
+		else if (data_from_keypad == '*')  // Handle backspace (delete last character)
+ 602:	8a 32       	cpi	r24, 0x2A	; 42
+ 604:	e1 f4       	brne	.+56     	; 0x63e <main+0x18a>
 		{
 			if (entered_index > 0)
- 5ea:	11 23       	and	r17, r17
- 5ec:	09 f4       	brne	.+2      	; 0x5f0 <main+0x13c>
- 5ee:	a4 cf       	rjmp	.-184    	; 0x538 <main+0x84>
+ 606:	11 23       	and	r17, r17
+ 608:	09 f4       	brne	.+2      	; 0x60c <main+0x158>
+ 60a:	88 cf       	rjmp	.-240    	; 0x51c <main+0x68>
 			{
-				entered_index--;
- 5f0:	11 50       	subi	r17, 0x01	; 1
-				entered_password[entered_index] = '\0';
- 5f2:	e1 e0       	ldi	r30, 0x01	; 1
- 5f4:	f0 e0       	ldi	r31, 0x00	; 0
- 5f6:	ec 0f       	add	r30, r28
- 5f8:	fd 1f       	adc	r31, r29
- 5fa:	e1 0f       	add	r30, r17
- 5fc:	f1 1d       	adc	r31, r1
- 5fe:	10 82       	st	Z, r1
+				entered_index--;  // Move back to previous character
+ 60c:	11 50       	subi	r17, 0x01	; 1
+				entered_password[entered_index] = '\0';  // Null-terminate the string
+ 60e:	e1 e0       	ldi	r30, 0x01	; 1
+ 610:	f0 e0       	ldi	r31, 0x00	; 0
+ 612:	ec 0f       	add	r30, r28
+ 614:	fd 1f       	adc	r31, r29
+ 616:	e1 0f       	add	r30, r17
+ 618:	f1 1d       	adc	r31, r1
+ 61a:	10 82       	st	Z, r1
 
 				lcd_clearDisplay();
- 600:	0e 94 50 02 	call	0x4a0	; 0x4a0 <lcd_clearDisplay>
+ 61c:	0e 94 50 02 	call	0x4a0	; 0x4a0 <lcd_clearDisplay>
 				for (uint8_t i = 0; i < entered_index; i++)
- 604:	00 e0       	ldi	r16, 0x00	; 0
- 606:	0a c0       	rjmp	.+20     	; 0x61c <main+0x168>
+ 620:	00 e0       	ldi	r16, 0x00	; 0
+ 622:	0a c0       	rjmp	.+20     	; 0x638 <main+0x184>
 				{
 					lcd_write_character(entered_password[i]);
- 608:	e1 e0       	ldi	r30, 0x01	; 1
- 60a:	f0 e0       	ldi	r31, 0x00	; 0
- 60c:	ec 0f       	add	r30, r28
- 60e:	fd 1f       	adc	r31, r29
- 610:	e0 0f       	add	r30, r16
- 612:	f1 1d       	adc	r31, r1
- 614:	80 81       	ld	r24, Z
- 616:	0e 94 b0 01 	call	0x360	; 0x360 <lcd_write_character>
+ 624:	e1 e0       	ldi	r30, 0x01	; 1
+ 626:	f0 e0       	ldi	r31, 0x00	; 0
+ 628:	ec 0f       	add	r30, r28
+ 62a:	fd 1f       	adc	r31, r29
+ 62c:	e0 0f       	add	r30, r16
+ 62e:	f1 1d       	adc	r31, r1
+ 630:	80 81       	ld	r24, Z
+ 632:	0e 94 b0 01 	call	0x360	; 0x360 <lcd_write_character>
 			{
-				entered_index--;
-				entered_password[entered_index] = '\0';
+				entered_index--;  // Move back to previous character
+				entered_password[entered_index] = '\0';  // Null-terminate the string
 
 				lcd_clearDisplay();
 				for (uint8_t i = 0; i < entered_index; i++)
- 61a:	0f 5f       	subi	r16, 0xFF	; 255
- 61c:	01 17       	cp	r16, r17
- 61e:	a0 f3       	brcs	.-24     	; 0x608 <main+0x154>
- 620:	8b cf       	rjmp	.-234    	; 0x538 <main+0x84>
+ 636:	0f 5f       	subi	r16, 0xFF	; 255
+ 638:	01 17       	cp	r16, r17
+ 63a:	a0 f3       	brcs	.-24     	; 0x624 <main+0x170>
+ 63c:	6f cf       	rjmp	.-290    	; 0x51c <main+0x68>
 				{
 					lcd_write_character(entered_password[i]);
 				}
 			}
 		}
-		else if (data_from_keypad != 0 && entered_index < MAX_PASSWORD_LENGTH)
- 622:	88 23       	and	r24, r24
- 624:	09 f4       	brne	.+2      	; 0x628 <main+0x174>
- 626:	88 cf       	rjmp	.-240    	; 0x538 <main+0x84>
- 628:	14 30       	cpi	r17, 0x04	; 4
- 62a:	08 f0       	brcs	.+2      	; 0x62e <main+0x17a>
- 62c:	85 cf       	rjmp	.-246    	; 0x538 <main+0x84>
+		else if (data_from_keypad != 0 && entered_index < MAX_PASSWORD_LENGTH)  // Valid key pressed
+ 63e:	88 23       	and	r24, r24
+ 640:	09 f4       	brne	.+2      	; 0x644 <main+0x190>
+ 642:	6c cf       	rjmp	.-296    	; 0x51c <main+0x68>
+ 644:	14 30       	cpi	r17, 0x04	; 4
+ 646:	08 f0       	brcs	.+2      	; 0x64a <main+0x196>
+ 648:	69 cf       	rjmp	.-302    	; 0x51c <main+0x68>
 		{
-			lcd_write_character(data_from_keypad);
- 62e:	0e 94 b0 01 	call	0x360	; 0x360 <lcd_write_character>
-			entered_password[entered_index++] = data_from_keypad;
- 632:	e1 e0       	ldi	r30, 0x01	; 1
- 634:	f0 e0       	ldi	r31, 0x00	; 0
- 636:	ec 0f       	add	r30, r28
- 638:	fd 1f       	adc	r31, r29
- 63a:	e1 0f       	add	r30, r17
- 63c:	f1 1d       	adc	r31, r1
- 63e:	00 83       	st	Z, r16
- 640:	1f 5f       	subi	r17, 0xFF	; 255
- 642:	7a cf       	rjmp	.-268    	; 0x538 <main+0x84>
+			lcd_write_character(data_from_keypad);  // Display entered character
+ 64a:	0e 94 b0 01 	call	0x360	; 0x360 <lcd_write_character>
+			entered_password[entered_index++] = data_from_keypad;  // Store character in password array
+ 64e:	e1 e0       	ldi	r30, 0x01	; 1
+ 650:	f0 e0       	ldi	r31, 0x00	; 0
+ 652:	ec 0f       	add	r30, r28
+ 654:	fd 1f       	adc	r31, r29
+ 656:	e1 0f       	add	r30, r17
+ 658:	f1 1d       	adc	r31, r1
+ 65a:	00 83       	st	Z, r16
+ 65c:	1f 5f       	subi	r17, 0xFF	; 255
+ 65e:	5e cf       	rjmp	.-324    	; 0x51c <main+0x68>
 
-00000644 <strcmp>:
- 644:	fb 01       	movw	r30, r22
- 646:	dc 01       	movw	r26, r24
- 648:	8d 91       	ld	r24, X+
- 64a:	01 90       	ld	r0, Z+
- 64c:	80 19       	sub	r24, r0
- 64e:	01 10       	cpse	r0, r1
- 650:	d9 f3       	breq	.-10     	; 0x648 <strcmp+0x4>
- 652:	99 0b       	sbc	r25, r25
- 654:	08 95       	ret
+00000660 <strcmp>:
+ 660:	fb 01       	movw	r30, r22
+ 662:	dc 01       	movw	r26, r24
+ 664:	8d 91       	ld	r24, X+
+ 666:	01 90       	ld	r0, Z+
+ 668:	80 19       	sub	r24, r0
+ 66a:	01 10       	cpse	r0, r1
+ 66c:	d9 f3       	breq	.-10     	; 0x664 <strcmp+0x4>
+ 66e:	99 0b       	sbc	r25, r25
+ 670:	08 95       	ret
 
-00000656 <_exit>:
- 656:	f8 94       	cli
+00000672 <_exit>:
+ 672:	f8 94       	cli
 
-00000658 <__stop_program>:
- 658:	ff cf       	rjmp	.-2      	; 0x658 <__stop_program>
+00000674 <__stop_program>:
+ 674:	ff cf       	rjmp	.-2      	; 0x674 <__stop_program>
