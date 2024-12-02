@@ -1,62 +1,60 @@
 #include "lcd.h"
 
-void lcd_command(unsigned char cmd) {
-	LCD_PORT = (LCD_PORT & 0x0F) | (cmd & 0xF0); // Send higher nibble
-	LCD_PORT &= ~(1 << RS); // RS = 0 for command
-	LCD_PORT |= (1 << EN); // Enable pulse
+void lcd_enable_pulse(void) {
+	LCD_CTRL_PORT |= (1 << LCD_EN);
 	_delay_us(1);
-	LCD_PORT &= ~(1 << EN);
-	_delay_us(200);
+	LCD_CTRL_PORT &= ~(1 << LCD_EN);
+	_delay_us(100);
+}
 
-	LCD_PORT = (LCD_PORT & 0x0F) | (cmd << 4); // Send lower nibble
-	LCD_PORT |= (1 << EN); // Enable pulse
-	_delay_us(1);
-	LCD_PORT &= ~(1 << EN);
+void lcd_cmd(uint8_t cmd) {
+	LCD_CTRL_PORT &= ~(1 << LCD_RS);  // RS = 0 for command
+	LCD_DATA_PORT = (cmd & 0xF0);     // Send upper nibble
+	lcd_enable_pulse();
+
+	LCD_DATA_PORT = (cmd << 4);       // Send lower nibble
+	lcd_enable_pulse();
+
 	_delay_ms(2);
 }
 
-void lcd_data(unsigned char data) {
-	LCD_PORT = (LCD_PORT & 0x0F) | (data & 0xF0); // Send higher nibble
-	LCD_PORT |= (1 << RS); // RS = 1 for data
-	LCD_PORT |= (1 << EN); // Enable pulse
-	_delay_us(1);
-	LCD_PORT &= ~(1 << EN);
-	_delay_us(200);
+void lcd_putc(char c) {
+	LCD_CTRL_PORT |= (1 << LCD_RS);   // RS = 1 for data
+	LCD_DATA_PORT = (c & 0xF0);       // Send upper nibble
+	lcd_enable_pulse();
 
-	LCD_PORT = (LCD_PORT & 0x0F) | (data << 4); // Send lower nibble
-	LCD_PORT |= (1 << EN); // Enable pulse
-	_delay_us(1);
-	LCD_PORT &= ~(1 << EN);
-	_delay_ms(2);
-}
+	LCD_DATA_PORT = (c << 4);         // Send lower nibble
+	lcd_enable_pulse();
 
-void lcd_init(unsigned char disp_attr) {
-	LCD_DDR = 0xFF; // Set LCD port as output
-	_delay_ms(15);
-	lcd_command(0x02); // Initialize LCD in 4-bit mode
-	lcd_command(0x28); // 2 lines, 5x7 matrix
-	lcd_command(0x0C); // Display ON, Cursor OFF
-	lcd_command(0x06); // Auto-increment cursor
-	lcd_command(0x01); // Clear display
-	_delay_ms(2);
-}
-
-void lcd_clrscr() {
-	lcd_command(0x01); // Clear display
 	_delay_ms(2);
 }
 
 void lcd_puts(const char *str) {
 	while (*str) {
-		lcd_data(*str++);
+		lcd_putc(*str++);
 	}
 }
 
-void lcd_gotoxy(unsigned char x, unsigned char y) {
-	unsigned char pos[] = {0x80, 0xC0};
-	lcd_command(pos[y] + x);
+void lcd_clrscr(void) {
+	lcd_cmd(LCD_CLEAR);
+	_delay_ms(2);
 }
 
-void lcd_putc(char c) {
-	lcd_data(c);
+void lcd_gotoxy(uint8_t x, uint8_t y) {
+	uint8_t addr = (y ? 0x40 : 0x00) + x;
+	lcd_cmd(0x80 | addr);
+}
+
+void lcd_init(void) {
+	LCD_CTRL_DDR |= (1 << LCD_RS) | (1 << LCD_EN);
+	LCD_DATA_DDR |= 0xF0;  // Upper nibble as output
+
+	_delay_ms(20);
+
+	lcd_cmd(0x33);
+	lcd_cmd(0x32);
+	lcd_cmd(LCD_FUNCTION_SET);
+	lcd_cmd(LCD_DISPLAY_ON);
+	lcd_cmd(LCD_CLEAR);
+	lcd_cmd(LCD_ENTRY_MODE);
 }

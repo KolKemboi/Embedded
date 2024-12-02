@@ -1,27 +1,30 @@
 #include "keypad.h"
+#include <util/delay.h>
 
-const char keys[4][4] = {
-	{'1', '2', '3', 'A'},
-	{'4', '5', '6', 'B'},
-	{'7', '8', '9', 'C'},
-	{'*', '0', '#', 'D'}
+const char keypad_map[4][4] = {
+	{'7', '8', '9', '/'},
+	{'4', '5', '6', 'x'},
+	{'1', '2', '3', '-'},
+	{'C', '0', '=', '+'}
 };
 
-void keypad_init() {
-	KEYPAD_DDR = 0xF0; // Upper nibble output, lower nibble input
-	KEYPAD_PORT = 0xFF; // Enable pull-ups
+void keypad_init(void) {
+	KEYPAD_DDR = 0xF0;   // Upper nibble as output, lower nibble as input
+	KEYPAD_PORT = 0xFF;  // Enable pull-up resistors on lower nibble
 }
 
-char keypad_getkey() {
+char keypad_get_key(void) {
 	for (uint8_t row = 0; row < 4; row++) {
-		KEYPAD_PORT = ~(1 << (row + 4)); // Set one row low
-		_delay_us(1); // Small delay
+		KEYPAD_PORT = ~(1 << (row + 4));  // Set one row low at a time
 
+		_delay_us(10);  // Small delay for stabilization
 		for (uint8_t col = 0; col < 4; col++) {
 			if (!(KEYPAD_PIN & (1 << col))) {
-				return keys[row][col]; // Return pressed key
+				_delay_ms(50);  // Debounce delay
+				while (!(KEYPAD_PIN & (1 << col)));  // Wait for key release
+				return keypad_map[row][col];
 			}
 		}
 	}
-	return '\0'; // No key pressed
+	return '\0';  // No key pressed
 }

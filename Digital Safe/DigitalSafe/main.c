@@ -1,89 +1,90 @@
 
+#ifndef F_CPU
+#define F_CPU 8000000UL  // Define the CPU frequency (8 MHz in this case)
+#endif
+
 #include <avr/io.h>
-#include <util/delay.h>
 #include "lcd.h"
 #include "keypad.h"
+#include <string.h>  // For strcmp
 
-#define LCD_DISP_ON 0x0C   // Display ON, Cursor OFF
-#define LCD_DISP_ON_CURSOR 0x0E // Display ON, Cursor ON
-#define LCD_DISP_ON_CURSOR_BLINK 0x0F
 
-// Define the correct password
-char correctPassword[4] = {'1', '2', '3', '4'};
+#include <util/delay.h>
 
-// Function to control the motor
-void unlockSafe() {
-	// Set PB1 (OC1A) as output
-	DDRB |= (1 << PB1);
+// Define LED and motor pins
+#define BLUE_LED PD6
+#define RED_LED PD7
+#define MOTOR_EN PD3
+#define MOTOR_CTRL1 PD2
+#define MOTOR_CTRL2 PD1
 
-	// Configure Timer1 for PWM
-	TCCR1A |= (1 << COM1A1) | (1 << WGM11);
-	TCCR1B |= (1 << WGM12) | (1 << WGM13) | (1 << CS11); // Prescaler 8
+// Password configuration
+const char correct_password[] = "1234";
+#define PASSWORD_LENGTH 4
 
-	ICR1 = 19999; // Top value for 50 Hz (8 MHz / (8 * 50 Hz) - 1)
+void setup_peripherals(void) {
+	// Configure LED and motor pins as output
+	DDRD |= (1 << BLUE_LED) | (1 << RED_LED) | (1 << MOTOR_EN) | (1 << MOTOR_CTRL1) | (1 << MOTOR_CTRL2);
 
-	OCR1A = 1500; // Duty cycle for "unlock" position
-	_delay_ms(3000);
-
-	OCR1A = 1000; // Duty cycle for "lock" position
-	_delay_ms(500);
+	// Initialize peripherals
+	PORTD &= ~((1 << BLUE_LED) | (1 << RED_LED));  // Turn off LEDs
+	PORTD &= ~((1 << MOTOR_EN) | (1 << MOTOR_CTRL1) | (1 << MOTOR_CTRL2));  // Stop motor
 }
 
-// Function to compare passwords
-uint8_t comparePasswords(char *input) {
-	for (uint8_t i = 0; i < 4; i++) {
-		if (input[i] != correctPassword[i]) {
-			return 0; // Passwords do not match
-		}
-	}
-	return 1; // Passwords match
+void motor_open(void) {
+	PORTD |= (1 << MOTOR_EN);      // Enable motor
+	PORTD |= (1 << MOTOR_CTRL1);   // Set motor direction
+	PORTD &= ~(1 << MOTOR_CTRL2);  // Clear opposite direction
 }
 
-int main() {
-	char enteredPassword[4];
-	uint8_t index = 0;
-	char key;
+void motor_stop(void) {
+	PORTD &= ~((1 << MOTOR_EN) | (1 << MOTOR_CTRL1) | (1 << MOTOR_CTRL2));
+}
 
-	// Initialize LCD and Keypad
-	lcd_init(LCD_DISP_ON);
+int main(void) {
+	char entered_password[PASSWORD_LENGTH + 1];  // To store user input
+	uint8_t index = 0;                           // Current index of password input
+
+	// Initialize peripherals
+	setup_peripherals();
+	lcd_init();
 	keypad_init();
 
-	// Display initial message
-	lcd_clrscr();
-	lcd_puts("Enter Password:");
-
 	while (1) {
-		// Wait for a key press
-		key = keypad_getkey();
+		lcd_clrscr();
+		lcd_puts("Enter Password:");
+		lcd_gotoxy(0, 1);  // Move cursor to the second row
 
-		if (key != '\0') {
-			// Display the key as '*'
-			lcd_gotoxy(index, 1);
-			lcd_putc('*');
-			enteredPassword[index] = key;  // Store the entered key
-			index++;  // Move to the next position for entering password
+		// Reset password input
+		index = 0;
 
-			// Check if 4 digits have been entered
-			if (index == 4) {
-				index = 0;  // Reset index for the next input
-
-				// Compare the entered password
-				if (comparePasswords(enteredPassword)) {
-					lcd_clrscr();
-					lcd_puts("Access Granted");
-					unlockSafe(); // Unlock the safe by moving the motor
-					_delay_ms(2000); // Delay to keep "Access Granted" on screen for a while
-					} else {
-					lcd_clrscr();
-					lcd_puts("Wrong Password");
-					_delay_ms(2000); // Delay to show "Wrong Password"
-				}
-
-				// Reset the display after showing the result
-				lcd_clrscr();
-				lcd_puts("Enter Password:");
+		// Get the password from the user
+		while (index < PASSWORD_LENGTH) {
+			char key = keypad_get_key();
+			if (key != '\0') {  // A valid key was pressed
+				entered_password[index++] = key;  // Store the key
+				lcd_putc('*');                    // Show asterisk for privacy
 			}
 		}
+		entered_password[index] = '\0';  // Null-terminate the string
+
+		_delay_ms(500);
+		lcd_clrscr();
+
+		// Check if the entered password matches the correct one
+		if (strcmp(entered_password, correct_password) == 0) {
+			lcd_puts("Access Granted!");
+			PORTD |= (1 << BLUE_LED);  // Turn on blue LED
+			PORTD &= ~(1 << RED_LED);  // Turn off red LED
+			motor_open();              // Open the motor
+			} else {
+			lcd_puts("Access Denied!");
+			PORTD |= (1 << RED_LED);   // Turn on red LED
+			PORTD &= ~(1 << BLUE_LED); // Turn off blue LED
+			motor_stop();              // Keep motor closed
+		}
+
+		_delay_ms(2000);  // Delay to allow user to read the message
+		PORTD &= ~((1 << BLUE_LED) | (1 << RED_LED));  // Turn off LEDs
 	}
-	return 0;
 }
