@@ -15,10 +15,13 @@ int main(void)
 	char entered_password[MAX_PASSWORD_LENGTH + 1] = "";
 	uint8_t entered_index = 0;
 	uint8_t trial_count = 0;
+	uint8_t safe_open = 0;
 
 	keypad_init();
 	lcd_init();
 
+	DDRA = 0xFF;
+	
 	lcd_write_string("Hello!");
 	_delay_ms(500);
 	lcd_clearDisplay();
@@ -37,6 +40,17 @@ int main(void)
 
 		data_from_keypad = keypad_scan();
 
+		if (safe_open && data_from_keypad == '*')  // Close safe
+		{
+			safe_open = 0;
+			lcd_clearDisplay();
+			lcd_write_string("Safe Closed");
+			_delay_ms(2000);
+			PORTA &= (~(1<<PA2));
+			lcd_clearDisplay();
+			continue;
+		}
+
 		if (data_from_keypad == 'C')  // Check if 'C' (Enter) is pressed
 		{
 			entered_password[entered_index] = '\0';  // Null-terminate the entered password
@@ -47,32 +61,43 @@ int main(void)
 				lcd_write_string("Access Granted");
 				_delay_ms(2000);
 				lcd_clearDisplay();
-
-				// Activate the motor when access is granted
-				PORTA = 0b11111110;
-				_delay_ms(3000);
-
-				lcd_write_string("Motor Stopped");
-				_delay_ms(2000);
+				PORTA |= (1<<PA2);
+				_delay_ms(100);
+				
+				for(int i = 0; i < 5; i++)
+				{
+					PORTA |= (1<<PA0);
+					_delay_ms(100);
+					PORTA &= (~(1<<PA0));
+					_delay_ms(100);
+				}
+				lcd_write_string("Safe Opened");
+				_delay_ms(1000);
 				lcd_clearDisplay();
-
+				
+				safe_open = 1;
 				// Reset password and allow for the next input
 				entered_index = 0;
 				entered_password[0] = '\0';  // Clear entered password
 			}
 			else  // Incorrect password
 			{
-				trial_count++;  
+				trial_count++;
 				lcd_write_string("Access Denied");
 				_delay_ms(2000);
 				lcd_clearDisplay();
-
+				
+			
+				PORTA |= (1<<PA1);
+				_delay_ms(100);
+				PORTA &= (~(1<<PA1));
+				_delay_ms(100);
+				
 				lcd_write_string("Tries Left: ");
 				lcd_write_character('0' + (MAX_TRIALS - trial_count));
 				_delay_ms(2000);
 				lcd_clearDisplay();
 
-				
 				entered_index = 0;
 				entered_password[0] = '\0';
 			}
@@ -87,13 +112,24 @@ int main(void)
 				lcd_clearDisplay();
 				for (uint8_t i = 0; i < entered_index; i++)
 				{
-					lcd_write_character(entered_password[i]);
+					lcd_write_character('*');
 				}
+			}
+		}
+		else if (data_from_keypad == '=')  // Reveal entered password temporarily
+		{
+			lcd_clearDisplay();
+			lcd_write_string(entered_password);
+			_delay_ms(500);  // Display for 1 millisecond
+			lcd_clearDisplay();
+			for (uint8_t i = 0; i < entered_index; i++)
+			{
+				lcd_write_character('*');
 			}
 		}
 		else if (data_from_keypad != 0 && entered_index < MAX_PASSWORD_LENGTH)  // Valid key pressed
 		{
-			lcd_write_character(data_from_keypad);  // Display entered character
+			lcd_write_character('*');  // Display asterisk
 			entered_password[entered_index++] = data_from_keypad;  // Store character in password array
 		}
 	}
