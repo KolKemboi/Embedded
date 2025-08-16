@@ -1,0 +1,1 @@
+avr-gcc -mmcu=atmega328p -DF_CPU=16000000UL -Os -Wall CMakeFiles/blink.elf.dir/blink.c.o -o blink.elf 

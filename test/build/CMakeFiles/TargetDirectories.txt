@@ -1,0 +1,4 @@
+/home/kol/Documents/test/arduino/build/CMakeFiles/blink.elf.dir
+/home/kol/Documents/test/arduino/build/CMakeFiles/upload.dir
+/home/kol/Documents/test/arduino/build/CMakeFiles/edit_cache.dir
+/home/kol/Documents/test/arduino/build/CMakeFiles/rebuild_cache.dir

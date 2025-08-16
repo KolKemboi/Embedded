@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/kol/Documents/test/arduino/build",
+  "command": "avr-gcc   -mmcu=atmega328p -DF_CPU=16000000UL -Os -Wall -o CMakeFiles/blink.elf.dir/blink.c.o -c /home/kol/Documents/test/arduino/blink.c",
+  "file": "/home/kol/Documents/test/arduino/blink.c"
+}
+]
