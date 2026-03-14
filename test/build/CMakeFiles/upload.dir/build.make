@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/kol/Documents/test/arduino
+CMAKE_SOURCE_DIR = /home/kol/Documents/Embedded/test
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/kol/Documents/test/arduino/build
+CMAKE_BINARY_DIR = /home/kol/Documents/Embedded/test/build
 
 # Utility rule file for upload.
 
@@ -66,9 +66,9 @@ include CMakeFiles/upload.dir/compiler_depend.make
 # Include the progress variables for this target.
 include CMakeFiles/upload.dir/progress.make
 
-CMakeFiles/upload: blink.hex
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/kol/Documents/test/arduino/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Flashing Arduino..."
-	avrdude -c arduino -p m328p -P /dev/ttyUSB0 -b 115200 -U flash:w:blink.hex:i
+CMakeFiles/upload: blink.elf
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/kol/Documents/Embedded/test/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Flashing Arduino..."
+	avrdude -c arduino -p m328p -P /dev/ttyACM0 -b 115200 -U flash:w:/home/kol/Documents/Embedded/test/build/blink.hex:i
 
 upload: CMakeFiles/upload
 upload: CMakeFiles/upload.dir/build.make
@@ -83,6 +83,6 @@ CMakeFiles/upload.dir/clean:
 .PHONY : CMakeFiles/upload.dir/clean
 
 CMakeFiles/upload.dir/depend:
-	cd /home/kol/Documents/test/arduino/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/kol/Documents/test/arduino /home/kol/Documents/test/arduino /home/kol/Documents/test/arduino/build /home/kol/Documents/test/arduino/build /home/kol/Documents/test/arduino/build/CMakeFiles/upload.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/kol/Documents/Embedded/test/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/kol/Documents/Embedded/test /home/kol/Documents/Embedded/test /home/kol/Documents/Embedded/test/build /home/kol/Documents/Embedded/test/build /home/kol/Documents/Embedded/test/build/CMakeFiles/upload.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/upload.dir/depend
 

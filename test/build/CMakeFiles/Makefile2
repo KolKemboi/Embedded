@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/kol/Documents/test/arduino
+CMAKE_SOURCE_DIR = /home/kol/Documents/Embedded/test
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/kol/Documents/test/arduino/build
+CMAKE_BINARY_DIR = /home/kol/Documents/Embedded/test/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -82,14 +82,14 @@ clean: CMakeFiles/upload.dir/clean
 CMakeFiles/blink.elf.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/blink.elf.dir/build.make CMakeFiles/blink.elf.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/blink.elf.dir/build.make CMakeFiles/blink.elf.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/kol/Documents/test/arduino/build/CMakeFiles --progress-num=1,2 "Built target blink.elf"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/kol/Documents/Embedded/test/build/CMakeFiles --progress-num=1,2 "Built target blink.elf"
 .PHONY : CMakeFiles/blink.elf.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/blink.elf.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/kol/Documents/test/arduino/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/kol/Documents/Embedded/test/build/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/blink.elf.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/kol/Documents/test/arduino/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/kol/Documents/Embedded/test/build/CMakeFiles 0
 .PHONY : CMakeFiles/blink.elf.dir/rule
 
 # Convenience name for target.
@@ -105,17 +105,17 @@ CMakeFiles/blink.elf.dir/clean:
 # Target rules for target CMakeFiles/upload.dir
 
 # All Build rule for target.
-CMakeFiles/upload.dir/all:
+CMakeFiles/upload.dir/all: CMakeFiles/blink.elf.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/upload.dir/build.make CMakeFiles/upload.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/upload.dir/build.make CMakeFiles/upload.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/kol/Documents/test/arduino/build/CMakeFiles --progress-num=3 "Built target upload"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/kol/Documents/Embedded/test/build/CMakeFiles --progress-num=3 "Built target upload"
 .PHONY : CMakeFiles/upload.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/upload.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/kol/Documents/test/arduino/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/kol/Documents/Embedded/test/build/CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/upload.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/kol/Documents/test/arduino/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/kol/Documents/Embedded/test/build/CMakeFiles 0
 .PHONY : CMakeFiles/upload.dir/rule
 
 # Convenience name for target.

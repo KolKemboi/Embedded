@@ -12,17 +12,17 @@ set(CMAKE_C_FLAGS "-mmcu=${MCU} -DF_CPU=${F_CPU} -Os -Wall")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Sources
-add_executable(blink.elf blink.c)
+add_executable(blink.elf ${CMAKE_SOURCE_DIR}/blink.c)
 
 # Convert to HEX after build
 add_custom_command(TARGET blink.elf POST_BUILD
-    COMMAND avr-objcopy -O ihex -R .eeprom blink.elf blink.hex
+    COMMAND avr-objcopy -O ihex -R .eeprom $<TARGET_FILE:blink.elf> ${CMAKE_BINARY_DIR}/blink.hex
     COMMENT "Building HEX file"
 )
 
 # Upload target
 add_custom_target(upload
-    COMMAND avrdude -c arduino -p m328p -P /dev/ttyUSB0 -b 115200 -U flash:w:blink.hex:i
-    DEPENDS blink.hex
+    COMMAND avrdude -c arduino -p m328p -P /dev/ttyACM0 -b 115200 -U flash:w:${CMAKE_BINARY_DIR}/blink.hex:i
+    DEPENDS blink.elf
     COMMENT "Flashing Arduino..."
 )

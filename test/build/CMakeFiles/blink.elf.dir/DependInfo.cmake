@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/kol/Documents/test/arduino/blink.c" "CMakeFiles/blink.elf.dir/blink.c.o" "gcc" "CMakeFiles/blink.elf.dir/blink.c.o.d"
+  "/home/kol/Documents/Embedded/test/blink.c" "CMakeFiles/blink.elf.dir/blink.c.o" "gcc" "CMakeFiles/blink.elf.dir/blink.c.o.d"
   )
 
 # Targets to which this target links.

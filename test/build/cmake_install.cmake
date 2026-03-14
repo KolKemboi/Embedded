@@ -1,4 +1,4 @@
-# Install script for directory: /home/kol/Documents/test/arduino
+# Install script for directory: /home/kol/Documents/Embedded/test
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/kol/Documents/test/arduino/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/kol/Documents/Embedded/test/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
