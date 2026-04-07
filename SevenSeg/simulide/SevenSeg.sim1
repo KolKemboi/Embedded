@@ -1,0 +1,65 @@
+<circuit version="1.1.0-SR1" rev="2005" stepSize="1000000" stepsPS="1000000" NLsteps="100000" reaStep="1000000" animate="0" >
+
+<item itemtype="Seven Segment" CircId="Seven Segment-1" mainComp="false" Show_id="false" Show_Val="false" Pos="104,-124" rotation="0" hflip="1" vflip="1" label="Seven Segment-1" idLabPos="20,-44" labelrot="0" valLabPos="-16,20" valLabRot="0" Color="Yellow" NumDisplays="1" Vertical_Pins="false" CommonCathode="true" Threshold="2.4 V" MaxCurrent="20 mA" Resistance="1 Ω" />
+
+<item itemtype="Ground" CircId="Ground-3" mainComp="false" Show_id="false" Show_Val="false" Pos="116,-32" rotation="0" hflip="1" vflip="1" label="Ground-3" idLabPos="-16,8" labelrot="0" valLabPos="-16,20" valLabRot="0" />
+
+<item itemtype="MCU" CircId="mega328-10" mainComp="false" Show_id="true" Show_Val="false" Pos="-28,-116" rotation="360" hflip="1" vflip="1" label="mega328-10" idLabPos="-94.685,-41.8847" labelrot="0" valLabPos="-16,20" valLabRot="0" Frequency="16 MHz" Program="../build/main.hex" Auto_Load="false" saveEepr="true" Logic_Symbol="false" Rst_enabled="false" Ext_Osc="false" Wdt_enabled="false" Clk_Out="false" MainMcu="true" SerialMon="-1" />
+
+<item itemtype="Seven Segment" CircId="Seven Segment-14" mainComp="false" Show_id="false" Show_Val="false" Pos="100,28" rotation="0" hflip="1" vflip="1" label="Seven Segment-14" idLabPos="20,-44" labelrot="0" valLabPos="-16,20" valLabRot="0" Color="Yellow" NumDisplays="1" Vertical_Pins="false" CommonCathode="true" Threshold="2.4 V" MaxCurrent="20 mA" Resistance="1 Ω" />
+
+<item itemtype="Ground" CircId="Ground-15" mainComp="false" Show_id="false" Show_Val="false" Pos="112,120" rotation="0" hflip="1" vflip="1" label="Ground-15" idLabPos="-16,8" labelrot="0" valLabPos="-16,20" valLabRot="0" />
+
+<item itemtype="Seven Segment" CircId="Seven Segment-16" mainComp="false" Show_id="false" Show_Val="false" Pos="-140,16" rotation="0" hflip="1" vflip="1" label="Seven Segment-16" idLabPos="20,-44" labelrot="0" valLabPos="-16,20" valLabRot="0" Color="Yellow" NumDisplays="1" Vertical_Pins="false" CommonCathode="true" Threshold="2.4 V" MaxCurrent="20 mA" Resistance="1 Ω" />
+
+<item itemtype="Ground" CircId="Ground-17" mainComp="false" Show_id="false" Show_Val="false" Pos="-132,92" rotation="0" hflip="1" vflip="1" label="Ground-17" idLabPos="-16,8" labelrot="0" valLabPos="-16,20" valLabRot="0" />
+
+<item itemtype="Connector" uid="Connector-2" startpinid="Ground-3-Gnd" endpinid="Seven Segment-1-pin_commona" pointList="116,-48,116,-92,112,-92" />
+
+<item itemtype="Connector" uid="Connector-34" startpinid="mega328-10-PORTC0" endpinid="Seven Segment-1-pin_a" pointList="12,-68,36,-68,36,-148,80,-148" />
+
+<item itemtype="Connector" uid="Connector-35" startpinid="mega328-10-PORTC1" endpinid="Seven Segment-1-pin_b" pointList="12,-76,44,-76,44,-140,80,-140" />
+
+<item itemtype="Connector" uid="Connector-36" startpinid="mega328-10-PORTC2" endpinid="Seven Segment-1-pin_c" pointList="12,-84,52,-84,52,-132,80,-132" />
+
+<item itemtype="Connector" uid="Connector-37" startpinid="mega328-10-PORTC3" endpinid="Seven Segment-1-pin_d" pointList="12,-92,60,-92,60,-124,80,-124" />
+
+<item itemtype="Connector" uid="Connector-38" startpinid="mega328-10-PORTC4" endpinid="Seven Segment-1-pin_e" pointList="12,-100,68,-100,68,-116,80,-116" />
+
+<item itemtype="Connector" uid="Connector-39" startpinid="mega328-10-PORTC5" endpinid="Seven Segment-1-pin_f" pointList="12,-108,80,-108" />
+
+<item itemtype="Connector" uid="Connector-40" startpinid="mega328-10-PORTC6" endpinid="Seven Segment-1-pin_g" pointList="-36,-108,-44,-108,-44,-156,64,-156,64,-84,80,-84,80,-100" />
+
+<item itemtype="Connector" uid="Connector-46" startpinid="Ground-15-Gnd" endpinid="Seven Segment-14-pin_commona" pointList="112,104,112,60,108,60" />
+
+<item itemtype="Connector" uid="Connector-52" startpinid="mega328-10-PORTB0" endpinid="Seven Segment-14-pin_a" pointList="-36,-4,-36,4,76,4" />
+
+<item itemtype="Connector" uid="Connector-53" startpinid="mega328-10-PORTB1" endpinid="Seven Segment-14-pin_b" pointList="12,-4,12,12,76,12" />
+
+<item itemtype="Connector" uid="Connector-54" startpinid="mega328-10-PORTB2" endpinid="Seven Segment-14-pin_c" pointList="12,-12,20,-12,20,20,76,20" />
+
+<item itemtype="Connector" uid="Connector-55" startpinid="mega328-10-PORTB3" endpinid="Seven Segment-14-pin_d" pointList="12,-20,28,-20,28,28,76,28" />
+
+<item itemtype="Connector" uid="Connector-56" startpinid="mega328-10-PORTB4" endpinid="Seven Segment-14-pin_e" pointList="12,-28,36,-28,36,36,76,36" />
+
+<item itemtype="Connector" uid="Connector-57" startpinid="mega328-10-PORTB5" endpinid="Seven Segment-14-pin_f" pointList="12,-36,44,-36,44,44,76,44" />
+
+<item itemtype="Connector" uid="Connector-65" startpinid="Ground-17-Gnd" endpinid="Seven Segment-16-pin_commona" pointList="-132,76,-132,48" />
+
+<item itemtype="Connector" uid="Connector-66" startpinid="mega328-10-PORTD0" endpinid="Seven Segment-16-pin_a" pointList="-36,-100,-172,-100,-172,-8,-164,-8" />
+
+<item itemtype="Connector" uid="Connector-67" startpinid="mega328-10-PORTD1" endpinid="Seven Segment-16-pin_b" pointList="-36,-92,-180,-92,-180,0,-164,0" />
+
+<item itemtype="Connector" uid="Connector-68" startpinid="mega328-10-PORTD2" endpinid="Seven Segment-16-pin_c" pointList="-36,-84,-188,-84,-188,8,-164,8" />
+
+<item itemtype="Connector" uid="Connector-69" startpinid="mega328-10-PORTD3" endpinid="Seven Segment-16-pin_d" pointList="-36,-76,-196,-76,-196,16,-164,16" />
+
+<item itemtype="Connector" uid="Connector-70" startpinid="mega328-10-PORTD4" endpinid="Seven Segment-16-pin_e" pointList="-36,-68,-204,-68,-204,24,-164,24" />
+
+<item itemtype="Connector" uid="Connector-79" startpinid="mega328-10-PORTD5" endpinid="Seven Segment-16-pin_f" pointList="-36,-28,-212,-28,-212,32,-164,32" />
+
+<item itemtype="Connector" uid="Connector-80" startpinid="mega328-10-PORTD6" endpinid="Seven Segment-16-pin_g" pointList="-36,-20,-216,-20,-216,40,-164,40" />
+
+<item itemtype="Connector" uid="Connector-81" startpinid="mega328-10-PORTB6" endpinid="Seven Segment-14-pin_g" pointList="-36,-44,-52,-44,-52,52,76,52" />
+
+</circuit>
